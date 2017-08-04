@@ -1,0 +1,35 @@
+# CakePHP
+/vendor/*
+/tmp/*
+/logs/*
+
+# Node
+/node_modules/*
+
+# Testing coverage
+/webroot/coverage/*
+/build/logs/*
+
+#PhpStorm
+.idea/*
+
+# External tool builders
+.externalToolBuilders/
+
+# Composer
+composer.phar
+
+# Compiled CSS
+/webroot/css/style.css
+
+# Concatenated / minified JS files
+/webroot/js/script.concat.js
+/webroot/js/*.min.js
+
+# Environment variable definitions
+/config/.env
+/config/.env.production
+/config/.env.dev
+
+# Code coverage report
+/build/logs/clover.xml
