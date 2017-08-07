@@ -29,6 +29,8 @@ if (extension_loaded('xdebug')) :
 endif;
 
 $this->end();
+else:
+    $this->layout = 'default';
 endif;
 ?>
 <h2><?= h($message) ?></h2>
