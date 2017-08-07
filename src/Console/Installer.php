@@ -39,6 +39,7 @@ class Installer
         $rootDir = dirname(dirname(__DIR__));
 
         static::createAppConfig($rootDir, $io);
+        static::createEnvFiles($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
 
         // ask if the permissions should be changed
@@ -210,6 +211,29 @@ class Installer
         if (file_exists($bootstrapJsSource)) {
             copy($bootstrapJsSource, $bootstrapJsDestination);
             $io->write('Copied `bootstrap.min.js` file');
+        }
+    }
+
+    /**
+     * Copies the file .env.default to .env, .env.production, and .env.dev
+     *
+     * @param string $dir The application's root directory
+     * @param \Composer\IO\IOInterface $io IO interface to write to console
+     * @return void
+     */
+    public static function createEnvFiles($dir, $io)
+    {
+        $source = $dir . '/config/.env.default';
+        $destinations = [
+            '.env',
+            '.env.production',
+            '.env.dev'
+        ];
+        foreach ($destinations as $destination) {
+            if (!file_exists($dir . '/config/' . $destination)) {
+                copy($source, $dir . '/config/' . $destination);
+                $io->write("Created `config/$destination` file");
+            }
         }
     }
 }
