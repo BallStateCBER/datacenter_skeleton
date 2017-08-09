@@ -4,8 +4,6 @@
      */
     $this->extend('DataCenter.default');
     $this->assign('sidebar', $this->element('sidebar'));
-
-    use Cake\Core\Configure;
     $this->Html->script('script.js', ['block' => 'scriptBottom']);
 ?>
 
