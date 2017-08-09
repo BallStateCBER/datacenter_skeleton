@@ -2,7 +2,7 @@
 
 ## Installation
 
-`composer create-project --prefer-dist BallStateCBER/datacenter_skeleton [app_name]`
+`composer create-project --prefer-dist ballstatecber/datacenter-skeleton [app_name]`
 
 ## Configuration
 
