@@ -17,6 +17,6 @@
 <?php $this->end(); ?>
 
 <div id="content">
-    <?= $this->element('flash_messages_bootstrap') ?>
+    <?= $this->element('DataCenter.flash_messages_bootstrap') ?>
     <?= $this->fetch('content') ?>
 </div>
