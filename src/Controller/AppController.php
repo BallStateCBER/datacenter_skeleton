@@ -42,7 +42,7 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
-        $this->loadComponent('Flash');
+        $this->loadComponent('DataCenter.Flash');
 
         /*
          * Enable the following components for recommended CakePHP security settings.
