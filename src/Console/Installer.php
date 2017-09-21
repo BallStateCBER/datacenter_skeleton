@@ -215,7 +215,7 @@ class Installer
     }
 
     /**
-     * Copies the file .env.default to .env, .env.production, and .env.dev
+     * Creates the files .env, .env.production, and .env.dev
      *
      * @param string $dir The application's root directory
      * @param \Composer\IO\IOInterface $io IO interface to write to console
@@ -223,17 +223,101 @@ class Installer
      */
     public static function createEnvFiles($dir, $io)
     {
-        $source = $dir . '/config/.env.default';
-        $destinations = [
-            '.env',
-            '.env.production',
-            '.env.dev'
-        ];
-        foreach ($destinations as $destination) {
-            if (!file_exists($dir . '/config/' . $destination)) {
-                copy($source, $dir . '/config/' . $destination);
-                $io->write("Created `config/$destination` file");
-            }
+        static::createDevEnvFile($dir, $io);
+        static::createProductionEnvFile($dir, $io);
+        static::setCurrentEnv($dir, $io, '.env.dev');
+    }
+
+    /**
+     * Creates .env.dev
+     *
+     * @param string $rootDir Full path to root directory
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function createDevEnvFile($rootDir, $io)
+    {
+        $defaultFile = $rootDir . '/config/.env.default';
+        $newFile = $rootDir . '/config/.env.dev';
+
+        if (file_exists($newFile)) {
+            return;
         }
+
+        copy($defaultFile, $newFile);
+
+        static::modifyEnvFile($newFile, [
+            'header' => '# Environment variables for development environment'
+        ]);
+
+        $io->write("Created `config/.env.dev`");
+    }
+
+    /**
+     * Creates .env.production
+     *
+     * @param string $rootDir Full path to root directory
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function createProductionEnvFile($rootDir, $io)
+    {
+        $defaultFile = $rootDir . '/config/.env.default';
+        $newFile = $rootDir . '/config/.env.production';
+
+        if (file_exists($newFile)) {
+            return;
+        }
+
+        copy($defaultFile, $newFile);
+
+        static::modifyEnvFile($newFile, [
+            'header' => '# Environment variables for production environment'
+        ]);
+
+        $io->write("Created `config/.env.production`");
+    }
+
+    /**
+     * Copies the specified .env.foo file to .env
+     *
+     * @param string $rootDir Path to root directory
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @param string $filename Filename to copy to .env
+     * @return void
+     */
+    public static function setCurrentEnv($rootDir, $io, $filename)
+    {
+        $fileToCopy = $rootDir . '/config/' . $filename;
+        $newFile = $rootDir . '/config/.env';
+
+        if (file_exists($newFile)) {
+            return;
+        }
+
+        copy($fileToCopy, $newFile);
+        $io->write("Created `config/.env`");
+    }
+
+    /**
+     * Modifies the specified env file according to the provided options
+     *
+     * @param string $file Full path to file
+     * @param array $options Array of edits to make to env file
+     */
+    public static function modifyEnvFile($file, $options)
+    {
+        $handler = fopen($file, 'r+');
+        $toWrite = [];
+        while (!feof($handler)) {
+            $line = fgets($handler);
+
+            if (!$toWrite && isset($options['header'])) {
+                $line = $options['header'];
+            }
+
+            $toWrite[] = $line;
+        }
+        file_put_contents($file, implode('\n', $toWrite));
     }
 }
