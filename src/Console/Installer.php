@@ -318,6 +318,6 @@ class Installer
 
             $toWrite[] = $line;
         }
-        file_put_contents($file, implode('\n', $toWrite));
+        file_put_contents($file, implode("\n", $toWrite));
     }
 }
