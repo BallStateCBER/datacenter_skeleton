@@ -339,7 +339,7 @@ class Installer
 
             // Replace header
             if (!$toWrite && isset($options['header'])) {
-                $line = $options['header'];
+                $line = $options['header'] . "\n";
                 $updatedVariables[] = 'header';
                 unset($options['header']);
             }
