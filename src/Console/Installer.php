@@ -343,7 +343,7 @@ class Installer
                     $val = "\"$val\"";
                 }
 
-                $line = "export $key = $val";
+                $line = "export $key = $val\n";
             }
 
             $toWrite[] = $line;
