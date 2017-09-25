@@ -226,6 +226,13 @@ class Installer
             'SECURITY_SALT' => $securitySalt,
             'COOKIE_ENCRYPTION_KEY' => $cookieKey
         ];
+        if ($io->isInteractive()) {
+            $appName = $io->in('App name:', null, 'app_name');
+            $variables['APP_NAME'] = $appName;
+            $fullBaseUrl = $io->in('Full base URL:', null, 'https://sitename.cberdata.org');
+            $variables['FULL_BASE_URL'] = $fullBaseUrl;
+        }
+
         if (!file_exists($dir . '/config/.env.dev')) {
             static::createDevEnvFile($dir, $variables, $io);
         }
