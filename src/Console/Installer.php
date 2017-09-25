@@ -348,9 +348,7 @@ class Installer
             $toWrite[] = $line;
         }
 
-        $updatesString = implode(', ', array_keys($options)) .
-            __n(' value', ' values', count($options)) .
-            " in $file";
+        $updatesString = implode(', ', array_keys($options)) . " in $file";
         if (file_put_contents($file, implode('', $toWrite))) {
             $io->write("Updated $updatesString");
 
