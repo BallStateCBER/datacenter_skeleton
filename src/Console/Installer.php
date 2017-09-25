@@ -197,13 +197,15 @@ class Installer
 
         // Set security salts
         $securitySalt = hash('sha256', Security::randomBytes(64));
+        $cookieKey = hash('sha256', Security::randomBytes(64));
         static::modifyEnvFiles(
             [
                 $dir . '/config/.env.dev',
                 $dir . '/config/.env.production'
             ],
             [
-                'SECURITY_SALT' => $securitySalt
+                'SECURITY_SALT' => $securitySalt,
+                'COOKIE_ENCRYPTION_KEY' => $cookieKey
             ],
             $io
         );
