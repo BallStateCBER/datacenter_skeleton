@@ -272,7 +272,8 @@ class Installer
         copy($defaultFile, $newFile);
 
         static::modifyEnvFile($newFile, [
-            'header' => '# Environment variables for production environment'
+            'header' => '# Environment variables for production environment',
+            'DEBUG' => 'FALSE'
         ]);
 
         $io->write("Created `config/.env.production`");
@@ -312,8 +313,22 @@ class Installer
         while (!feof($handler)) {
             $line = fgets($handler);
 
+            // Replace header
             if (!$toWrite && isset($options['header'])) {
                 $line = $options['header'];
+            }
+
+            // Replace default variable values with specified ones
+            foreach ($options as $key => $val) {
+                if (stripos($line, "export $key = ") !== false) {
+                    $isBoolOrNull = in_array(strtolower($val), ['null', 'true', 'false']);
+                    $isNumeric = is_numeric($val);
+                    $isQuoted = strpos($val, '"') === 0 || strpos($val, '\'') === 0;
+                    if (!$isBoolOrNull && !$isNumeric && !$isQuoted) {
+                        $val = "\"$val\"";
+                    }
+                    $line = "export $key = $val";
+                }
             }
 
             $toWrite[] = $line;
