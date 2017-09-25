@@ -222,18 +222,16 @@ class Installer
     {
         $securitySalt = hash('sha256', Security::randomBytes(64));
         $cookieKey = hash('sha256', Security::randomBytes(64));
-        $updatedVariables = [
+        $variables = [
             'SECURITY_SALT' => $securitySalt,
             'COOKIE_ENCRYPTION_KEY' => $cookieKey
         ];
         if (!file_exists($dir . '/config/.env.dev')) {
-            static::createDevEnvFile($dir, $io);
-            static::modifyEnvFile($dir . '/config/.env.dev', $updatedVariables, $io);
+            static::createDevEnvFile($dir, $variables, $io);
         }
 
         if (!file_exists($dir . '/config/.env.production')) {
-            static::createProductionEnvFile($dir, $io);
-            static::modifyEnvFile($dir . '/config/.env.production', $updatedVariables, $io);
+            static::createProductionEnvFile($dir, $variables, $io);
         }
 
         if (!file_exists($dir . '/config/.env')) {
@@ -245,10 +243,11 @@ class Installer
      * Creates .env.dev
      *
      * @param string $rootDir Full path to root directory
+     * @param array $variables Variables in .env file to update
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function createDevEnvFile($rootDir, $io)
+    public static function createDevEnvFile($rootDir, $variables, $io)
     {
         $defaultFile = $rootDir . '/config/.env.default';
         $newFile = $rootDir . '/config/.env.dev';
@@ -260,19 +259,21 @@ class Installer
         copy($defaultFile, $newFile);
         $io->write("Created `config/.env.dev`");
 
-        static::modifyEnvFile($newFile, [
+        $variables += [
             'header' => '# Environment variables for development environment'
-        ], $io);
+        ];
+        static::modifyEnvFile($newFile, $variables, $io);
     }
 
     /**
      * Creates .env.production
      *
      * @param string $rootDir Full path to root directory
+     * @param array $variables Variables in .env file to update
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function createProductionEnvFile($rootDir, $io)
+    public static function createProductionEnvFile($rootDir, $variables, $io)
     {
         $defaultFile = $rootDir . '/config/.env.default';
         $newFile = $rootDir . '/config/.env.production';
@@ -284,10 +285,11 @@ class Installer
         copy($defaultFile, $newFile);
         $io->write("Created `config/.env.production`");
 
-        static::modifyEnvFile($newFile, [
+        $variables += [
             'header' => '# Environment variables for production environment',
             'DEBUG' => 'FALSE'
-        ], $io);
+        ];
+        static::modifyEnvFile($newFile, $variables, $io);
     }
 
     /**
@@ -375,20 +377,6 @@ class Installer
 
             // Note write failure
             $io->write("Unable to update $updatesString");
-        }
-    }
-
-    /**
-     * Modifies the specified env files according to the provided options
-     *
-     * @param string[] $files Full paths to files
-     * @param array $options Array of edits to make to env file
-     * @param \Composer\IO\IOInterface $io IO interface to write to console
-     */
-    public static function modifyEnvFiles($files, $options, $io)
-    {
-        foreach ($files as $file) {
-            static::modifyEnvFile($file, $options, $io);
         }
     }
 }
