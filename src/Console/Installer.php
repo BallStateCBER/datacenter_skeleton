@@ -165,40 +165,6 @@ class Installer
     }
 
     /**
-     * Sets value for SECURITY_SALT in the specified .env files
-     *
-     * @param string[] $files The files to update
-     * @param \Composer\IO\IOInterface $io IO interface to write to console.
-     * @return void
-     */
-    public static function setSecuritySalt($files, $io)
-    {
-        $salt = hash('sha256', Security::randomBytes(64));
-        foreach ($files as $file) {
-            $content = file_get_contents($file);
-            $content = str_replace(
-                'export SECURITY_SALT = null',
-                "export SECURITY_SALT = \"$salt\"",
-                $content,
-                $count
-            );
-
-            if ($count == 0) {
-                $io->write("No SECURITY_SALT placeholder to replace in $file");
-                continue;
-            }
-
-            $result = file_put_contents($file, $content);
-            if ($result) {
-                $io->write("Updated SECURITY_SALT value in $file");
-                continue;
-            }
-
-            $io->write("Unable to update SECURITY_SALT value in $file");
-        }
-    }
-
-    /**
      * Copies the file bootstrap.min.js
      *
      * @param string $dir The application's root directory
@@ -225,12 +191,20 @@ class Installer
      */
     public static function createEnvFiles($dir, $io)
     {
+        // Create .env.dev and .env.production
         static::createDevEnvFile($dir, $io);
         static::createProductionEnvFile($dir, $io);
-        static::setSecuritySalt([
-            $dir . '/config/.env.dev',
-            $dir . '/config/.env.production',
+
+        // Set security salts
+        $securitySalt = hash('sha256', Security::randomBytes(64));
+        static::modifyEnvFile($dir . '/config/.env.dev', [
+            'SECURITY_SALT' => $securitySalt
         ], $io);
+        static::modifyEnvFile($dir . '/config/.env.production', [
+            'SECURITY_SALT' => $securitySalt
+        ], $io);
+
+        // Create .env
         static::setCurrentEnv($dir, $io, '.env.dev');
     }
 
@@ -254,7 +228,7 @@ class Installer
 
         static::modifyEnvFile($newFile, [
             'header' => '# Environment variables for development environment'
-        ]);
+        ], $io);
 
         $io->write("Created `config/.env.dev`");
     }
@@ -280,7 +254,7 @@ class Installer
         static::modifyEnvFile($newFile, [
             'header' => '# Environment variables for production environment',
             'DEBUG' => 'FALSE'
-        ]);
+        ], $io);
 
         $io->write("Created `config/.env.production`");
     }
@@ -311,8 +285,9 @@ class Installer
      *
      * @param string $file Full path to file
      * @param array $options Array of edits to make to env file
+     * @param \Composer\IO\IOInterface $io IO interface to write to console
      */
-    public static function modifyEnvFile($file, $options)
+    public static function modifyEnvFile($file, $options, $io)
     {
         $handler = fopen($file, 'r+');
         $toWrite = [];
@@ -326,19 +301,34 @@ class Installer
 
             // Replace default variable values with specified ones
             foreach ($options as $key => $val) {
-                if (stripos($line, "export $key = ") !== false) {
-                    $isBoolOrNull = in_array(strtolower($val), ['null', 'true', 'false']);
-                    $isNumeric = is_numeric($val);
-                    $isQuoted = strpos($val, '"') === 0 || strpos($val, '\'') === 0;
-                    if (!$isBoolOrNull && !$isNumeric && !$isQuoted) {
-                        $val = "\"$val\"";
-                    }
-                    $line = "export $key = $val";
+                if (stripos($line, "export $key = ") === false) {
+                    $io->write("No $key placeholder to replace in $file");
+                    continue;
                 }
+
+                // Make sure strings are quoted
+                $isBoolOrNull = in_array(strtolower($val), ['null', 'true', 'false']);
+                $isNumeric = is_numeric($val);
+                $isQuoted = strpos($val, '"') === 0 || strpos($val, '\'') === 0;
+                if (!$isBoolOrNull && !$isNumeric && !$isQuoted) {
+                    $val = "\"$val\"";
+                }
+
+                $line = "export $key = $val";
             }
 
             $toWrite[] = $line;
         }
-        file_put_contents($file, implode('', $toWrite));
+
+        $updatesString = implode(', ', array_keys($options)) .
+            __n(' value', ' values', count($options)) .
+            " in $file";
+        if (file_put_contents($file, implode('', $toWrite))) {
+            $io->write("Updated $updatesString");
+
+            return;
+        }
+
+        $io->write("Unable to update $updatesString");
     }
 }
