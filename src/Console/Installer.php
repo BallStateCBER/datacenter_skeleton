@@ -70,10 +70,14 @@ class Installer
         }
 
         // Rename font directory to align with Bootstrap's expectations
-        if (rename($rootDir . '/webroot/font', $rootDir . '/webroot/fonts')) {
-            $io->write('Renamed `webroot/font` to `webroot/fonts`');
-        } else {
-            $io->write('Error renaming `webroot/font` to `webroot/fonts`');
+        $oldFontDir = $rootDir . '/webroot/font';
+        if (file_exists($oldFontDir)) {
+            $newFontDir = $rootDir . '/webroot/fonts';
+            if (rename($oldFontDir, $newFontDir)) {
+                $io->write('Renamed `webroot/font` to `webroot/fonts`');
+            } else {
+                $io->write('Error renaming `webroot/font` to `webroot/fonts`');
+            }
         }
 
         static::copyTwitterBootstrapFiles($rootDir, $io);
@@ -214,27 +218,25 @@ class Installer
      */
     public static function createEnvFiles($dir, $io)
     {
-        // Create .env.dev and .env.production
-        static::createDevEnvFile($dir, $io);
-        static::createProductionEnvFile($dir, $io);
-
-        // Set security salts
         $securitySalt = hash('sha256', Security::randomBytes(64));
         $cookieKey = hash('sha256', Security::randomBytes(64));
-        static::modifyEnvFiles(
-            [
-                $dir . '/config/.env.dev',
-                $dir . '/config/.env.production'
-            ],
-            [
-                'SECURITY_SALT' => $securitySalt,
-                'COOKIE_ENCRYPTION_KEY' => $cookieKey
-            ],
-            $io
-        );
+        $updatedVariables = [
+            'SECURITY_SALT' => $securitySalt,
+            'COOKIE_ENCRYPTION_KEY' => $cookieKey
+        ];
+        if (!file_exists($dir . '/config/.env.dev')) {
+            static::createDevEnvFile($dir, $io);
+            static::modifyEnvFile($dir . '/config/.env.dev', $updatedVariables, $io);
+        }
 
-        // Create .env
-        static::setCurrentEnv($dir, $io, '.env.dev');
+        if (!file_exists($dir . '/config/.env.production')) {
+            static::createProductionEnvFile($dir, $io);
+            static::modifyEnvFile($dir . '/config/.env.production', $updatedVariables, $io);
+        }
+
+        if (!file_exists($dir . '/config/.env')) {
+            static::setCurrentEnv($dir, $io, '.env.dev');
+        }
     }
 
     /**
