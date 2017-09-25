@@ -229,9 +229,12 @@ class Installer
             'COOKIE_ENCRYPTION_KEY' => $cookieKey
         ];
         if ($io->isInteractive()) {
-            $appName = $io->ask('App name (default):', 'app_name');
+            $appName = $io->ask('App name (\'app_name\' by default):', 'app_name');
             $variables['APP_NAME'] = $appName;
-            $fullBaseUrl = $io->ask('Full base URL:', 'https://sitename.cberdata.org');
+            $fullBaseUrl = $io->ask(
+                'Full base URL (\'https://sitename.cberdata.org\' by default):',
+                'https://sitename.cberdata.org'
+            );
             $variables['FULL_BASE_URL'] = $fullBaseUrl;
         }
 
