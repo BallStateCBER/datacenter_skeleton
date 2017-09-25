@@ -324,6 +324,7 @@ class Installer
             // Replace header
             if (!$toWrite && isset($options['header'])) {
                 $line = $options['header'];
+                unset($options['header']);
             }
 
             // Replace default variable values with specified ones
