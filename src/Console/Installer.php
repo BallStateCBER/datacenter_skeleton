@@ -327,6 +327,7 @@ class Installer
             // Replace header
             if (!$toWrite && isset($options['header'])) {
                 $line = $options['header'];
+                $updatedVariables[] = 'header';
                 unset($options['header']);
             }
 
@@ -362,15 +363,17 @@ class Installer
         }
 
         // Note updated variables
-        $updatesString = implode(', ', $updatedVariables) . " in $filename";
-        if (file_put_contents($file, implode('', $toWrite))) {
-            $io->write("Updated $updatesString");
+        if ($updatedVariables) {
+            $updatesString = implode(', ', $updatedVariables) . " in $filename";
+            if (file_put_contents($file, implode('', $toWrite))) {
+                $io->write("Updated $updatesString");
 
-            return;
+                return;
+            }
+
+            // Note write failure
+            $io->write("Unable to update $updatesString");
         }
-
-        // Note write failure
-        $io->write("Unable to update $updatesString");
     }
 
     /**
