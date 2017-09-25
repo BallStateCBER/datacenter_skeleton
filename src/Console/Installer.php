@@ -258,12 +258,11 @@ class Installer
         }
 
         copy($defaultFile, $newFile);
+        $io->write("Created `config/.env.dev`");
 
         static::modifyEnvFile($newFile, [
             'header' => '# Environment variables for development environment'
         ], $io);
-
-        $io->write("Created `config/.env.dev`");
     }
 
     /**
@@ -283,13 +282,12 @@ class Installer
         }
 
         copy($defaultFile, $newFile);
+        $io->write("Created `config/.env.production`");
 
         static::modifyEnvFile($newFile, [
             'header' => '# Environment variables for production environment',
             'DEBUG' => 'FALSE'
         ], $io);
-
-        $io->write("Created `config/.env.production`");
     }
 
     /**
