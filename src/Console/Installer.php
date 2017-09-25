@@ -64,8 +64,6 @@ class Installer
             static::setFolderPermissions($rootDir, $io);
         }
 
-        static::setSecuritySalt($rootDir, $io);
-
         if (class_exists('\Cake\Codeception\Console\Installer')) {
             \Cake\Codeception\Console\Installer::customizeCodeceptionBinary($event);
         }
@@ -167,33 +165,37 @@ class Installer
     }
 
     /**
-     * Set the security.salt value in the application's config file.
+     * Sets value for SECURITY_SALT in the specified .env files
      *
-     * @param string $dir The application's root directory.
+     * @param string[] $files The files to update
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function setSecuritySalt($dir, $io)
+    public static function setSecuritySalt($files, $io)
     {
-        $config = $dir . '/config/app.php';
-        $content = file_get_contents($config);
+        $salt = hash('sha256', Security::randomBytes(64));
+        foreach ($files as $file) {
+            $content = file_get_contents($file);
+            $content = str_replace(
+                'export SECURITY_SALT = null',
+                "export SECURITY_SALT = \"$salt\"",
+                $content,
+                $count
+            );
 
-        $newKey = hash('sha256', Security::randomBytes(64));
-        $content = str_replace('__SALT__', $newKey, $content, $count);
+            if ($count == 0) {
+                $io->write("No SECURITY_SALT placeholder to replace in $file");
+                continue;
+            }
 
-        if ($count == 0) {
-            $io->write('No Security.salt placeholder to replace.');
+            $result = file_put_contents($file, $content);
+            if ($result) {
+                $io->write("Updated SECURITY_SALT value in $file");
+                continue;
+            }
 
-            return;
+            $io->write("Unable to update SECURITY_SALT value in $file");
         }
-
-        $result = file_put_contents($config, $content);
-        if ($result) {
-            $io->write('Updated Security.salt value in config/app.php');
-
-            return;
-        }
-        $io->write('Unable to update Security.salt value.');
     }
 
     /**
@@ -225,6 +227,10 @@ class Installer
     {
         static::createDevEnvFile($dir, $io);
         static::createProductionEnvFile($dir, $io);
+        static::setSecuritySalt([
+            $dir . '/config/.env.dev',
+            $dir . '/config/.env.production',
+        ], $io);
         static::setCurrentEnv($dir, $io, '.env.dev');
     }
 
