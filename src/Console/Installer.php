@@ -354,7 +354,8 @@ class Installer
         // Note any missing variables
         $filename = $filename = array_pop(explode('/', $file));
         if ($options) {
-            $msg = 'No ' . implode(', ', array_keys($options)) . ' placeholder to replace in ' . $filename;
+            $skippedVariables = array_keys($options);
+            $msg = 'No ' . implode(', ', $skippedVariables) . ' placeholder to replace in ' . $filename;
             $io->write($msg);
         }
 
