@@ -197,12 +197,16 @@ class Installer
 
         // Set security salts
         $securitySalt = hash('sha256', Security::randomBytes(64));
-        static::modifyEnvFile($dir . '/config/.env.dev', [
-            'SECURITY_SALT' => $securitySalt
-        ], $io);
-        static::modifyEnvFile($dir . '/config/.env.production', [
-            'SECURITY_SALT' => $securitySalt
-        ], $io);
+        static::modifyEnvFiles(
+            [
+                $dir . '/config/.env.dev',
+                $dir . '/config/.env.production'
+            ],
+            [
+                'SECURITY_SALT' => $securitySalt
+            ],
+            $io
+        );
 
         // Create .env
         static::setCurrentEnv($dir, $io, '.env.dev');
@@ -330,5 +334,19 @@ class Installer
         }
 
         $io->write("Unable to update $updatesString");
+    }
+
+    /**
+     * Modifies the specified env files according to the provided options
+     *
+     * @param string[] $files Full paths to files
+     * @param array $options Array of edits to make to env file
+     * @param \Composer\IO\IOInterface $io IO interface to write to console
+     */
+    public static function modifyEnvFiles($files, $options, $io)
+    {
+        foreach ($files as $file) {
+            static::modifyEnvFile($file, $options, $io);
+        }
     }
 }
