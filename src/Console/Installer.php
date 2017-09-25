@@ -194,7 +194,8 @@ class Installer
 
         foreach ($copyJobs as $source => $destination) {
             if (file_exists($source)) {
-                $filename = array_pop(explode('/', $source));
+                $splodeySource = explode('/', $source);
+                $filename = array_pop($splodeySource);
                 if (copy($source, $destination)) {
                     $io->write("Copied `$filename` into webroot");
                 } else {
@@ -352,7 +353,8 @@ class Installer
         }
 
         // Note any missing variables
-        $filename = $filename = array_pop(explode('/', $file));
+        $splodeyPath = explode('/', $file);
+        $filename = $filename = array_pop($splodeyPath);
         if ($options) {
             $skippedVariables = array_keys($options);
             $msg = 'No ' . implode(', ', $skippedVariables) . ' placeholder to replace in ' . $filename;
