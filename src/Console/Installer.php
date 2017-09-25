@@ -82,7 +82,7 @@ class Installer
             }
         }
 
-        static::copyTwitterBootstrapFiles($rootDir, $io);
+        static::copyTwitterBootstrapFiles();
     }
 
     /**
@@ -181,12 +181,14 @@ class Installer
     /**
      * Copies Bootstrap files into /webroot
      *
-     * @param string $dir The application's root directory
-     * @param \Composer\IO\IOInterface $io IO interface to write to console
+     * @param \Composer\Script\Event $event The composer event object.
      * @return void
      */
-    public static function copyTwitterBootstrapFiles($dir, $io)
+    public static function copyTwitterBootstrapFiles(Event $event)
     {
+        $io = $event->getIO();
+        $dir = dirname(dirname(__DIR__));
+
         // Files to be copied from => to
         $copyJobs = [
             $dir . '/vendor/twbs/bootstrap/dist/js/bootstrap.min.js' => $dir . '/webroot/js/bootstrap.min.js'
@@ -227,7 +229,7 @@ class Installer
             'COOKIE_ENCRYPTION_KEY' => $cookieKey
         ];
         if ($io->isInteractive()) {
-            $appName = $io->ask('App name:', 'app_name');
+            $appName = $io->ask('App name (default):', 'app_name');
             $variables['APP_NAME'] = $appName;
             $fullBaseUrl = $io->ask('Full base URL:', 'https://sitename.cberdata.org');
             $variables['FULL_BASE_URL'] = $fullBaseUrl;
