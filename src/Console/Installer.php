@@ -82,7 +82,7 @@ class Installer
             }
         }
 
-        static::copyTwitterBootstrapFiles();
+        static::copyTwitterBootstrapFiles($event);
     }
 
     /**
