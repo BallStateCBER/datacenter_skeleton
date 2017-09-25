@@ -68,6 +68,13 @@ class Installer
             \Cake\Codeception\Console\Installer::customizeCodeceptionBinary($event);
         }
 
+        // Rename font directory to align with Bootstrap's expectations
+        if (rename($rootDir . '/webroot/font', $rootDir . '/webroot/fonts')) {
+            $io->write('Renamed `webroot/font` to `webroot/fonts`');
+        } else {
+            $io->write('Error renaming `webroot/font` to `webroot/fonts`');
+        }
+
         static::copyTwitterBootstrapFiles($rootDir, $io);
     }
 
@@ -177,6 +184,12 @@ class Installer
         $copyJobs = [
             $dir . '/vendor/twbs/bootstrap/dist/js/bootstrap.min.js' => $dir . '/webroot/js/bootstrap.min.js'
         ];
+        $fontSourceDir = $dir . '/vendor/twbs/bootstrap/dist/fonts';
+        $fontDestinationDir = $dir . '/webroot/fonts';
+        $fontFiles = $files = array_diff(scandir($fontSourceDir), ['.', '..']);
+        foreach ($fontFiles as $fontFile) {
+            $copyJobs[$fontSourceDir . '/' . $fontFile] = $fontDestinationDir . '/' . $fontFile;
+        }
 
         foreach ($copyJobs as $source => $destination) {
             if (file_exists($source)) {
