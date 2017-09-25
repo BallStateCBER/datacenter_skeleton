@@ -165,7 +165,7 @@ class Installer
     }
 
     /**
-     * Copies the file bootstrap.min.js
+     * Copies Bootstrap files into /webroot
      *
      * @param string $dir The application's root directory
      * @param \Composer\IO\IOInterface $io IO interface to write to console
@@ -173,12 +173,20 @@ class Installer
      */
     public static function copyTwitterBootstrapFiles($dir, $io)
     {
-        $bootstrapJsSource = $dir . '/vendor/twbs/bootstrap/dist/js/bootstrap.min.js';
-        $bootstrapJsDestination = $dir . '/webroot/js/bootstrap.min.js';
+        // Files to be copied from => to
+        $copyJobs = [
+            $dir . '/vendor/twbs/bootstrap/dist/js/bootstrap.min.js' => $dir . '/webroot/js/bootstrap.min.js'
+        ];
 
-        if (file_exists($bootstrapJsSource)) {
-            copy($bootstrapJsSource, $bootstrapJsDestination);
-            $io->write('Copied `bootstrap.min.js` file');
+        foreach ($copyJobs as $source => $destination) {
+            if (file_exists($source)) {
+                $filename = array_pop(explode('/', $source));
+                if (copy($source, $destination)) {
+                    $io->write("Copied `$filename` into webroot");
+                } else {
+                    $io->write("Error copying `$filename` into webroot");
+                }
+            }
         }
     }
 
