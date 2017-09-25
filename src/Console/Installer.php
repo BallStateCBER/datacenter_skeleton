@@ -352,13 +352,14 @@ class Installer
         }
 
         // Note any missing variables
+        $filename = $filename = array_pop(explode('/', $file));
         if ($options) {
-            $msg = 'No ' . implode(', ', array_keys($options)) . ' placeholder to replace in ' . $file;
+            $msg = 'No ' . implode(', ', array_keys($options)) . ' placeholder to replace in ' . $filename;
             $io->write($msg);
         }
 
         // Note updated variables
-        $updatesString = implode(', ', $updatedVariables) . " in $file";
+        $updatesString = implode(', ', $updatedVariables) . " in $filename";
         if (file_put_contents($file, implode('', $toWrite))) {
             $io->write("Updated $updatesString");
 
