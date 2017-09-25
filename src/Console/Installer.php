@@ -39,7 +39,9 @@ class Installer
         $rootDir = dirname(dirname(__DIR__));
 
         static::createAppConfig($rootDir, $io);
-        unlink($rootDir . '/config/app.default.php');
+        if (file_exists($rootDir . '/config/app.default.php')) {
+            unlink($rootDir . '/config/app.default.php');
+        }
         static::createEnvFiles($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
 
