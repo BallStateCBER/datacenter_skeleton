@@ -319,6 +319,7 @@ class Installer
     {
         $handler = fopen($file, 'r+');
         $toWrite = [];
+        $updatedVariables = [];
         while (!feof($handler)) {
             $line = fgets($handler);
 
@@ -331,7 +332,6 @@ class Installer
             // Replace default variable values with specified ones
             foreach ($options as $key => $val) {
                 if (stripos($line, "export $key = ") === false) {
-                    $io->write("No $key placeholder to replace in $file");
                     continue;
                 }
 
@@ -344,18 +344,28 @@ class Installer
                 }
 
                 $line = "export $key = $val\n";
+                $updatedVariables[] = $key;
+                unset($options[$key]);
             }
 
             $toWrite[] = $line;
         }
 
-        $updatesString = implode(', ', array_keys($options)) . " in $file";
+        // Note any missing variables
+        if ($options) {
+            $msg = 'No ' . implode(', ', array_keys($options)) . ' placeholder to replace in ' . $file;
+            $io->write($msg);
+        }
+
+        // Note updated variables
+        $updatesString = implode(', ', $updatedVariables) . " in $file";
         if (file_put_contents($file, implode('', $toWrite))) {
             $io->write("Updated $updatesString");
 
             return;
         }
 
+        // Note write failure
         $io->write("Unable to update $updatesString");
     }
 
