@@ -71,17 +71,6 @@ class Installer
             \Cake\Codeception\Console\Installer::customizeCodeceptionBinary($event);
         }
 
-        // Rename font directory to align with Bootstrap's expectations
-        $oldFontDir = $rootDir . '/webroot/font';
-        if (file_exists($oldFontDir)) {
-            $newFontDir = $rootDir . '/webroot/fonts';
-            if (rename($oldFontDir, $newFontDir)) {
-                $io->write('Renamed `webroot/font` to `webroot/fonts`');
-            } else {
-                $io->write('Error renaming `webroot/font` to `webroot/fonts`');
-            }
-        }
-
         static::copyTwitterBootstrapFiles($event);
     }
 
