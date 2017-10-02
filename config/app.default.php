@@ -364,4 +364,6 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+
+    'data_center_subsite_title' => ''
 ];
