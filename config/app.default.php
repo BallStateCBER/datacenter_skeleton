@@ -365,5 +365,6 @@ return [
         'defaults' => 'php',
     ],
 
-    'data_center_subsite_title' => ''
+    'data_center_subsite_title' => '',
+    'google_analytics_id' => ''
 ];

@@ -9,7 +9,8 @@
 
 ## Configuration
 - Update `app.php`, `.env`, `.env.production`, and `.env.dev` in `/config`
-  - `data_center_subsite_title` 
+  - `data_center_subsite_title`
+  - `google_analytics_id`
   - Database configuration
   - Optional email configuration
 - Compile `webroot/css/style.less` into `style.css`
