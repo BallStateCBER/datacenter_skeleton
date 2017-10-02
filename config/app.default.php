@@ -366,5 +366,6 @@ return [
     ],
 
     'data_center_subsite_title' => '',
+    'data_center_subsite_url' => env('FULL_BASE_URL', ''),
     'google_analytics_id' => ''
 ];
