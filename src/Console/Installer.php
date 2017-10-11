@@ -72,6 +72,7 @@ class Installer
         }
 
         static::copyTwitterBootstrapFiles($event);
+        static::copyWebrootFiles($event);
     }
 
     /**
@@ -168,7 +169,45 @@ class Installer
     }
 
     /**
-     * Copies Bootstrap files into /webroot
+     * Copies favicon and other files into /webroot
+     *
+     * @param \Composer\Script\Event $event The composer event object.
+     * @return void
+     */
+    public static function copyWebrootFiles(Event $event)
+    {
+        $io = $event->getIO();
+        $dir = dirname(dirname(__DIR__));
+
+        // Files to be copied from => to
+        $files = [
+            'android-chrome-192x192.png',
+            'android-chrome-512x512.png',
+            'apple-touch-icon.png',
+            'browserconfig.xml',
+            'favicon.ico',
+            'favicon-16x16.png',
+            'favicon-32x32.png',
+            'manifest.json',
+            'mstile-150x150.png',
+            'safari-pinned-tab.svg'
+        ];
+
+        foreach ($files as $file) {
+            $source = $dir . 'vendor/ballstatecber/datacenter-plugin-cakephp3/webroot/' . $file;
+            $destination = $dir . '/webroot/' . $file;
+            if (file_exists($source)) {
+                if (copy($source, $destination)) {
+                    $io->write("Copied `$file` into webroot");
+                } else {
+                    $io->write("Error copying `$file` into webroot");
+                }
+            }
+        }
+    }
+
+    /**
+     * Copies Bootstrap files into /webroot subdirectories
      *
      * @param \Composer\Script\Event $event The composer event object.
      * @return void
