@@ -224,7 +224,7 @@ class Installer
         ];
         $fontSourceDir = $dir . '/vendor/twbs/bootstrap/dist/fonts';
         $fontDestinationDir = $dir . '/webroot/fonts';
-        $fontFiles = $files = array_diff(scandir($fontSourceDir), ['.', '..']);
+        $fontFiles = array_diff(scandir($fontSourceDir), ['.', '..']);
         foreach ($fontFiles as $fontFile) {
             $copyJobs[$fontSourceDir . '/' . $fontFile] = $fontDestinationDir . '/' . $fontFile;
         }
