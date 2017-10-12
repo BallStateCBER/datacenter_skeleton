@@ -40,7 +40,14 @@
         }
     },
     "scripts": {
-        "post-package-update": "App\\Console\\Installer::copyTwitterBootstrapFiles",
+        "post-install-cmd": [
+            "App\\Console\\Installer::copyTwitterBootstrapFiles",
+            "App\\Console\\Installer::copyWebrootFiles"
+        ],
+        "post-package-update": [
+            "App\\Console\\Installer::copyTwitterBootstrapFiles",
+            "App\\Console\\Installer::copyWebrootFiles"
+        ],
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
         "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
         "check": [
