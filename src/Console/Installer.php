@@ -133,6 +133,7 @@ class Installer
     public static function setFolderPermissions($dir, $io)
     {
         // Change the permissions on a path and output the results.
+        /** @var \Composer\IO\IOInterface $io */
         $changePerms = function ($path, $perms, $io) {
             // Get permission bits from stat(2) result.
             $currentPerms = fileperms($path) & 0777;
