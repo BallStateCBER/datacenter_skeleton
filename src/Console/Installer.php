@@ -195,7 +195,7 @@ class Installer
         ];
 
         foreach ($files as $file) {
-            $source = $dir . 'vendor/ballstatecber/datacenter-plugin-cakephp3/webroot/' . $file;
+            $source = $dir . '/vendor/ballstatecber/datacenter-plugin-cakephp3/webroot/' . $file;
             $destination = $dir . '/webroot/' . $file;
             if (file_exists($source)) {
                 if (copy($source, $destination)) {
@@ -203,6 +203,8 @@ class Installer
                 } else {
                     $io->write("Error copying `$file` into webroot");
                 }
+            } else {
+                $io->write("Could not find `$file` to copy into webroot");
             }
         }
     }
