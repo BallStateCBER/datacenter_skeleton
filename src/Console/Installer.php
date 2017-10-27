@@ -28,7 +28,7 @@ class Installer
     /**
      * Does some routine installation tasks so people don't have to.
      *
-     * @param \Composer\Installer\PackageEvent $event The composer event object.
+     * @param PackageEvent $event The composer event object.
      * @throws \Exception Exception raised by validator.
      * @return void
      */
@@ -72,7 +72,25 @@ class Installer
         }
 
         static::copyTwitterBootstrapFiles($event);
-        static::copyWebrootFiles($event);
+        static::copyDataCenterFiles($event);
+    }
+
+    /**
+     * Handles various file-copying from /vendor to /webroot
+     *
+     * @param PackageEvent $event The composer event object.
+     * @throws \Exception Exception raised by validator.
+     * @return void
+     */
+    public static function postUpdate(PackageEvent $event)
+    {
+        $packageName = $event->getOperation()->getReason()->job['packageName'];
+        if ($packageName == 'twbs/bootstrap') {
+            static::copyTwitterBootstrapFiles($event);
+        }
+        if ($packageName == 'ballstatecber/datacenter-plugin-cakephp3') {
+            static::copyDataCenterFiles($event);
+        }
     }
 
     /**
@@ -133,7 +151,6 @@ class Installer
     public static function setFolderPermissions($dir, $io)
     {
         // Change the permissions on a path and output the results.
-        /** @var \Composer\IO\IOInterface $io */
         $changePerms = function ($path, $perms, $io) {
             // Get permission bits from stat(2) result.
             $currentPerms = fileperms($path) & 0777;
@@ -170,12 +187,12 @@ class Installer
     }
 
     /**
-     * Copies favicon and other files into /webroot
+     * Copies favicon and other files from Data Center plugin into /webroot
      *
-     * @param \Composer\Installer\PackageEvent $event The composer event object.
+     * @param PackageEvent $event The composer event object.
      * @return void
      */
-    public static function copyWebrootFiles(PackageEvent $event)
+    public static function copyDataCenterFiles(PackageEvent $event)
     {
         $io = $event->getIO();
         $dir = dirname(dirname(__DIR__));
@@ -195,7 +212,7 @@ class Installer
         ];
 
         foreach ($files as $file) {
-            $source = $dir . '/vendor/ballstatecber/datacenter-plugin-cakephp3/webroot/' . $file;
+            $source = $dir . 'vendor/ballstatecber/datacenter-plugin-cakephp3/webroot/' . $file;
             $destination = $dir . '/webroot/' . $file;
             if (file_exists($source)) {
                 if (copy($source, $destination)) {
@@ -203,8 +220,6 @@ class Installer
                 } else {
                     $io->write("Error copying `$file` into webroot");
                 }
-            } else {
-                $io->write("Could not find `$file` to copy into webroot");
             }
         }
     }
@@ -212,7 +227,7 @@ class Installer
     /**
      * Copies Bootstrap files into /webroot subdirectories
      *
-     * @param \Composer\Installer\PackageEvent $event The composer event object.
+     * @param PackageEvent $event The composer event object.
      * @return void
      */
     public static function copyTwitterBootstrapFiles(PackageEvent $event)
