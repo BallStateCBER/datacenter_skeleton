@@ -377,6 +377,7 @@ class Installer
      * @param string $file Full path to file
      * @param array $options Array of edits to make to env file
      * @param \Composer\IO\IOInterface $io IO interface to write to console
+     * @return void
      */
     public static function modifyEnvFile($file, $options, $io)
     {
