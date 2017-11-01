@@ -15,6 +15,7 @@
 namespace App\Console;
 
 use Cake\Utility\Security;
+use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\Installer\PackageEvent;
 use Exception;
@@ -102,9 +103,14 @@ class Installer
      */
     public static function getPackageName(PackageEvent $event)
     {
-        /** @var UpdateOperation $operation */
         $operation = $event->getOperation();
 
+        if (method_exists($operation, 'getPackage')) {
+            /** @var InstallOperation $operation */
+            return $operation->getPackage()->getName();
+        }
+
+        /** @var UpdateOperation $operation */
         return $operation->getInitialPackage()->getName();
     }
 
