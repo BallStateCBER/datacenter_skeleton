@@ -103,15 +103,14 @@ class Installer
      */
     public static function getPackageName(PackageEvent $event)
     {
+        /** @var InstallOperation|UpdateOperation $operation */
         $operation = $event->getOperation();
 
-        if (method_exists($operation, 'getPackage')) {
-            /** @var InstallOperation $operation */
-            return $operation->getPackage()->getName();
-        }
+        $package = method_exists($operation, 'getPackage')
+            ? $operation->getPackage()
+            : $operation->getInitialPackage();
 
-        /** @var UpdateOperation $operation */
-        return $operation->getInitialPackage()->getName();
+        return $package->getName();
     }
 
     /**
