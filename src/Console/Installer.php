@@ -15,6 +15,7 @@
 namespace App\Console;
 
 use Cake\Utility\Security;
+use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\Installer\PackageEvent;
 use Exception;
 
@@ -101,31 +102,10 @@ class Installer
      */
     public static function getPackageName(PackageEvent $event)
     {
+        /** @var UpdateOperation $operation */
         $operation = $event->getOperation();
-        if (is_string($operation)) {
-            echo 'Operation: (string) ' . $operation . "\n";
 
-            return $operation;
-        } else {
-            echo 'Operation: ' . get_class($operation) . "\n";
-        }
-
-        $reason = $operation->getReason();
-        echo 'Reason: ' . get_class($reason) . "\n";
-
-        $reasonData = $reason->getReasonData();
-        if (is_string($reasonData)) {
-            echo 'ReasonData: (string) ' . $reasonData . "\n";
-
-            return $reasonData;
-        } else {
-            echo 'ReasonData: ' . get_class($reasonData) . "\n";
-        }
-
-        $target = $reasonData->getTarget();
-        echo 'Target: (string) ' . $target . "\n";
-
-        return $target;
+        return $operation->getInitialPackage()->getName();
     }
 
     /**
