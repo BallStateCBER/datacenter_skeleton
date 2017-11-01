@@ -84,13 +84,48 @@ class Installer
      */
     public static function postUpdate(PackageEvent $event)
     {
-        $packageName = $event->getOperation()->getReason()->job['packageName'];
+        $packageName = self::getPackageName($event);
         if ($packageName == 'twbs/bootstrap') {
             static::copyTwitterBootstrapFiles($event);
         }
         if ($packageName == 'ballstatecber/datacenter-plugin-cakephp3') {
             static::copyDataCenterFiles($event);
         }
+    }
+
+    /**
+     * Returns the package name associated with $event
+     *
+     * @param PackageEvent $event Package event
+     * @return string
+     */
+    public static function getPackageName(PackageEvent $event)
+    {
+        $operation = $event->getOperation();
+        if (is_string($operation)) {
+            echo 'Operation: (string) ' . $operation . "\n";
+
+            return $operation;
+        } else {
+            echo 'Operation: ' . get_class($operation) . "\n";
+        }
+
+        $reason = $operation->getReason();
+        echo 'Reason: ' . get_class($reason) . "\n";
+
+        $reasonData = $reason->getReasonData();
+        if (is_string($reasonData)) {
+            echo 'ReasonData: (string) ' . $reasonData . "\n";
+
+            return $reasonData;
+        } else {
+            echo 'ReasonData: ' . get_class($reasonData) . "\n";
+        }
+
+        $target = $reasonData->getTarget();
+        echo 'Target: (string) ' . $target . "\n";
+
+        return $target;
     }
 
     /**
