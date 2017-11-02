@@ -29,7 +29,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "src",
-            "DataCenter\\": "./vendor/ballstatecber/datacenter/src"
+            "DataCenter\\": "./vendor/ballstatecber/datacenter-plugin-cakephp3/src"
         }
     },
     "autoload-dev": {
@@ -40,9 +40,9 @@
         }
     },
     "scripts": {
-        "post-package-install": "App\\Console\\Installer::postUpdate",
-        "post-package-update": "App\\Console\\Installer::postUpdate",
-        "post-create-project-cmd": "App\\Console\\Installer::postInstall",
+        "post-package-install": "DataCenter\\Console\\Installer::postUpdate",
+        "post-package-update": "DataCenter\\Console\\Installer::postUpdate",
+        "post-create-project-cmd": "DataCenter\\Console\\Installer::postInstall",
         "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
         "check": [
             "@test",
