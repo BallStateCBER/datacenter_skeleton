@@ -15,6 +15,7 @@
   - Optional email configuration
 - Compile `webroot/css/style.less` into `style.css`
 - Check to make sure the version of Bootstrap served via [BootstrapCDN.com](https://www.bootstrapcdn.com/) in `Template/Layout/default.ctp` matches that in `vendor/twbs/bootstrap`
+- Update `README.md`
 
 ## Setting up integrations
 - Create a [GitHub](https://github.com/BallStateCBER/) repository
