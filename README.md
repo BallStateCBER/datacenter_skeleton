@@ -5,7 +5,9 @@
 [![Issue Count](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/badges/80311f8e2345008349a3/issue_count.svg)](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/feed)
 
 ## Installation
-`composer create-project --prefer-dist ballstatecber/datacenter-skeleton [app_name] -s dev`
+1. `composer create-project --prefer-dist ballstatecber/datacenter-skeleton [app_name] -s dev`
+2. `npm install`
+3. `gulp less`
 
 ## Configuration
 - Update `app.php`, `.env`, `.env.production`, and `.env.dev` in `/config`
@@ -13,9 +15,9 @@
   - `google_analytics_id`
   - Database configuration
   - Optional email configuration
-- Compile `webroot/css/style.less` into `style.css`
-- Check to make sure the version of Bootstrap served via [BootstrapCDN.com](https://www.bootstrapcdn.com/) in `Template/Layout/default.ctp` matches that in `vendor/twbs/bootstrap`
 - Update `README.md`
+- Update `package.json`
+- Check to make sure the version of Bootstrap served via [BootstrapCDN.com](https://www.bootstrapcdn.com/) in `Template/Layout/default.ctp` matches that in `vendor/twbs/bootstrap`
 
 ## Setting up integrations
 - Create a [GitHub](https://github.com/BallStateCBER/) repository
