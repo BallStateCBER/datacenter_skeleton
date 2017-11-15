@@ -10,6 +10,7 @@ php:
 env:
   - PHPUNIT=1
   - PHPCS=1
+  - JSHINT=1
 
 matrix:
   fast_finish: true
