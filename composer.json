@@ -13,7 +13,8 @@
         "josegonzalez/dotenv": "dev-master",
         "mobiledetect/mobiledetectlib": "2.*",
         "twbs/bootstrap": "~3.0",
-        "xety/cake3-cookieauth": "1.*"
+        "xety/cake3-cookieauth": "1.*",
+        "friendsofcake/fixturize": "^1.0"
     },
     "require-dev": {
         "cakephp/bake": "~1.1",

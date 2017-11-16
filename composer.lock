@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dea0d3a6279aa26c91639699044a319a",
+    "content-hash": "807887fec28f0959a5e9bfa59b7abae6",
     "packages": [
         {
             "name": "aura/intl",
@@ -625,6 +625,57 @@
                 "validator"
             ],
             "time": "2017-04-03T19:08:52+00:00"
+        },
+        {
+            "name": "friendsofcake/fixturize",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/fixturize.git",
+                "reference": "0b1ea7fddd2ee0b48c27fad05a8d1809b752111c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/fixturize/zipball/0b1ea7fddd2ee0b48c27fad05a8d1809b752111c",
+                "reference": "0b1ea7fddd2ee0b48c27fad05a8d1809b752111c",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.2"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "FriendsOfCake\\Fixturize\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Winther",
+                    "homepage": "http://cakephp.nu/",
+                    "role": "Author"
+                },
+                {
+                    "name": "José Lorenzo Rodríguez",
+                    "homepage": "https://github.com/lorenzo",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "CakePHP Fixture classes to help increase productivity or performance",
+            "homepage": "https://github.com/FriendsOfCake/fixturize",
+            "keywords": [
+                "Fixture",
+                "cakephp",
+                "fixtures",
+                "performance",
+                "phpunit",
+                "unittest"
+            ],
+            "time": "2017-05-08T12:42:01+00:00"
         },
         {
             "name": "josegonzalez/dotenv",
