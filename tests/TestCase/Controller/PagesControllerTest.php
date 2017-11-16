@@ -67,16 +67,4 @@ class PagesControllerTest extends IntegrationTestCase
         $this->assertResponseError();
         $this->assertResponseContains('Error');
     }
-
-    /**
-     * Test directory traversal protection
-     *
-     * @return void
-     */
-    public function testDirectoryTraversalProtection()
-    {
-        $this->get('/pages/../Layout/ajax');
-        $this->assertResponseCode(403);
-        $this->assertResponseContains('Forbidden');
-    }
 }
