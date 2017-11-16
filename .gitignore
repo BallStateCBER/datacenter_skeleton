@@ -1,4 +1,5 @@
 # CakePHP
+app.php
 /vendor/*
 /tmp/*
 /logs/*
