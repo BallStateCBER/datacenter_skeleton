@@ -69,22 +69,6 @@ class PagesControllerTest extends IntegrationTestCase
     }
 
     /**
-     * Test that missing template in debug mode renders missing_template error page
-     *
-     * @return void
-     */
-    public function testMissingTemplateInDebug()
-    {
-        Configure::write('debug', true);
-        $this->get('/pages/not_existing');
-
-        $this->assertResponseFailure();
-        $this->assertResponseContains('Missing Template');
-        $this->assertResponseContains('Stacktrace');
-        $this->assertResponseContains('not_existing.ctp');
-    }
-
-    /**
      * Test directory traversal protection
      *
      * @return void
