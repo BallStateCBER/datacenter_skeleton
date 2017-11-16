@@ -55,19 +55,6 @@ class PagesControllerTest extends IntegrationTestCase
     }
 
     /**
-     * testDisplay method
-     *
-     * @return void
-     */
-    public function testDisplay()
-    {
-        $this->get('/');
-        $this->assertResponseOk();
-        $this->assertResponseContains('CakePHP');
-        $this->assertResponseContains('<html>');
-    }
-
-    /**
      * Test that missing template renders 404 page in production
      *
      * @return void
