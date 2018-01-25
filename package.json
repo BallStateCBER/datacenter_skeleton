@@ -31,7 +31,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Graham Watson",
   "license": "MIT",
   "readme": ""
 }
