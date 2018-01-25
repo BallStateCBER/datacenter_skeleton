@@ -6,8 +6,9 @@
 
 ## Installation
 1. `composer create-project --prefer-dist ballstatecber/datacenter-skeleton [app_name] -s dev`
-2. `npm install`
-3. `gulp less`
+2. `cd [app_name]`
+3. `npm install`
+4. `gulp less`
 
 ## Configuration
 - Update `app.php`, `.env`, `.env.production`, and `.env.dev` in `/config`
