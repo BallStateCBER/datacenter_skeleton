@@ -19,7 +19,6 @@
 - Update `README.md`
 - Update `package.json`
 - Change 'App Name' in `gulpfile.js`
-- Check to make sure the version of Bootstrap served via [BootstrapCDN.com](https://www.bootstrapcdn.com/) in `Template/Layout/default.ctp` matches that in `vendor/twbs/bootstrap`
 
 ## Setting up integrations
 - Create a [GitHub](https://github.com/BallStateCBER/) repository

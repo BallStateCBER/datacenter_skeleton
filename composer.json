@@ -12,7 +12,7 @@
         "cakephp/plugin-installer": "~1.0",
         "josegonzalez/dotenv": "dev-master",
         "mobiledetect/mobiledetectlib": "2.*",
-        "twbs/bootstrap": "~3.0",
+        "twbs/bootstrap": "3.3.7",
         "xety/cake3-cookieauth": "1.*",
         "friendsofcake/fixturize": "^1.0"
     },
