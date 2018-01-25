@@ -25,7 +25,7 @@
 - Add repo to [Code Climate](https://codeclimate.com/dashboard)
     - Add Slack integration
     - Add GitHub issue integration
-- Add Code Climate to the GitHub repo's integrations & services tab  
+    - Go to Repo Settings > Git repository and install webhook  
 - Add repo to [Slack's GitHub integration](https://cber.slack.com/apps/A0F7YS2SX-github)
 - Turn on building in [Travis](https://travis-ci.org/profile/BallStateCBER)
 - Add to [Data Center Panopticon](http://cberdata.org/panopticon)
