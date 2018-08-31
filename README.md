@@ -1,8 +1,7 @@
 # CBER Data Center Website Skeleton
-[![Build Status](https://travis-ci.org/BallStateCBER/datacenter_skeleton.svg?branch=development)](https://travis-ci.org/BallStateCBER/datacenter_skeleton)
-[![Code Climate](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/badges/80311f8e2345008349a3/gpa.svg)](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/feed)
-[![Test Coverage](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/badges/80311f8e2345008349a3/coverage.svg)](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/coverage)
-[![Issue Count](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/badges/80311f8e2345008349a3/issue_count.svg)](https://codeclimate.com/repos/5988cd375c5bfe02640000ff/feed)
+[![Build Status](https://travis-ci.org/BallStateCBER/datacenter-skeleton.svg?branch=development)](https://travis-ci.org/BallStateCBER/datacenter-skeleton)
+[![Maintainability](https://api.codeclimate.com/v1/badges/aa3005ac2fe03da8a2be/maintainability)](https://codeclimate.com/github/BallStateCBER/datacenter-skeleton/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/aa3005ac2fe03da8a2be/test_coverage)](https://codeclimate.com/github/BallStateCBER/datacenter-skeleton/test_coverage)
 
 ## Installation
 1. `composer create-project --prefer-dist ballstatecber/datacenter-skeleton [app_name] -s dev`
