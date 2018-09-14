@@ -18,7 +18,6 @@ matrix:
 before_script:
   - if [[ $PHPCS = 1 ]]; then composer require cakephp/cakephp-codesniffer:^3.0; fi
   - if [[ $PHPUNIT = 1 ]]; then composer install; fi
-  - if [[ $PHPUNIT = 1 ]]; then composer require phpunit/phpunit:"^5.7|^6.0"; fi
   - if [[ $PHPUNIT = 1 ]]; then composer run-script post-install-cmd --no-interaction; fi
   - if [[ $PHPUNIT = 1 ]]; then sh -c "mysql -e 'CREATE DATABASE IF NOT EXISTS test_myapp;'"; fi
   - if [[ $JSHINT = 1 ]]; then npm install -g jshint; fi
