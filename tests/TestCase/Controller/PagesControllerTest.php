@@ -40,6 +40,7 @@ class PagesControllerTest extends IntegrationTestCase
      * testMultipleGet method
      *
      * @return void
+     * @throws \PHPUnit\Exception
      */
     public function testMultipleGet()
     {
@@ -53,6 +54,7 @@ class PagesControllerTest extends IntegrationTestCase
      * Test that missing template renders 404 page in production
      *
      * @return void
+     * @throws \PHPUnit\Exception
      */
     public function testMissingTemplate()
     {
