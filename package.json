@@ -18,7 +18,7 @@
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "less-plugin-clean-css": "^1.5.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.19",
     "lodash.template": "^4.4.0",
     "minimatch": "^3.0",
     "semver": "^5.3.0",
