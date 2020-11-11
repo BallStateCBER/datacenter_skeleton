@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "0d583fadcdc8352449b58356f32e4818",
@@ -58,19 +58,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BallStateCBER/datacenter-plugin-cakephp3.git",
-                "reference": "a42c7959a19f8cd7c9b8ff83449931957eb52a5d"
+                "reference": "83d46513426ebb993ad2c26938cddf8ff5c40187"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BallStateCBER/datacenter-plugin-cakephp3/zipball/a42c7959a19f8cd7c9b8ff83449931957eb52a5d",
-                "reference": "a42c7959a19f8cd7c9b8ff83449931957eb52a5d",
+                "url": "https://api.github.com/repos/BallStateCBER/datacenter-plugin-cakephp3/zipball/83d46513426ebb993ad2c26938cddf8ff5c40187",
+                "reference": "83d46513426ebb993ad2c26938cddf8ff5c40187",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "^3.5",
                 "cakephp/cakephp-codesniffer": "*",
                 "composer/composer": "^1.5.2",
-                "php": ">=7.1",
+                "php": ">=7.2",
                 "twbs/bootstrap": "~3.0"
             },
             "require-dev": {
@@ -84,7 +84,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Ball State CBER DataCenter plugin for CakePHP 3",
-            "time": "2018-09-04T20:58:49+00:00"
+            "time": "2020-11-10T22:06:00+00:00"
         },
         {
             "name": "cakephp/cakephp",
@@ -1936,6 +1936,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2018-09-05T19:29:37+00:00"
         }
     ],
@@ -4404,5 +4405,6 @@
     "platform": {
         "php": ">=7.1"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
